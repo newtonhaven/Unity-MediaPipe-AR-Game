@@ -11,7 +11,6 @@ public class ARRawCameraSource : MonoBehaviour
     public ARCameraManager arCameraManager;
 
     private Texture2D _outputTexture;
-    private Texture2D _outputTexture;
     private bool _isInitialized = false;
 
 #if UNITY_EDITOR
