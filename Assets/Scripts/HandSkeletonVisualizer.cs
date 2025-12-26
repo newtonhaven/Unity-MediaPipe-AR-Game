@@ -6,7 +6,11 @@ public class HandSkeletonVisualizer : MonoBehaviour
 {
     [Header("Settings")]
     public Camera mainCamera;
-    public float interactionDepth = 0.5f;
+    [Header("Depth Calibration")]
+    // Default values matching HandLandmarkerRunner
+    public float depthMultiplier = 0.2f;
+    public float minDepth = 0.1f;
+    public float maxDepth = 2.0f;
     public GameObject jointPrefab;
     
     // Internal State
@@ -71,7 +75,23 @@ public class HandSkeletonVisualizer : MonoBehaviour
             }
         }
 
-        // 2. Update positions
+        // 2. Calculate Depth (Scale-based)
+        // Wrist is index 0, Middle MCP is index 9
+        // We assume landmarks has at least 21 points (standard hand model)
+        float estimatedDepth = 0.5f; // fallback
+        if (landmarks.Count > 9)
+        {
+            var wrist = landmarks[0];
+            var middleMcp = landmarks[9];
+            
+            float apparentSize = Vector2.Distance(new Vector2(wrist.x, wrist.y), new Vector2(middleMcp.x, middleMcp.y));
+            if (apparentSize < 0.001f) apparentSize = 0.001f;
+            
+            estimatedDepth = depthMultiplier / apparentSize;
+            estimatedDepth = Mathf.Clamp(estimatedDepth, minDepth, maxDepth);
+        }
+
+        // 3. Update positions
         for (int i = 0; i < _targetLandmarkIndices.Count; i++)
         {
             int landmarkId = _targetLandmarkIndices[i];
@@ -82,7 +102,7 @@ public class HandSkeletonVisualizer : MonoBehaviour
                 float lx = 1.0f - lm.x; // Flip X (Mirror fix)
                 float ly = 1.0f - lm.y; // Flip Y as before
                 
-                Vector3 worldPos = mainCamera.ViewportToWorldPoint(new Vector3(lx, ly, interactionDepth));
+                Vector3 worldPos = mainCamera.ViewportToWorldPoint(new Vector3(lx, ly, estimatedDepth));
                 _jointInstances[i].transform.position = worldPos;
                 
                 if (!_jointInstances[i].activeSelf) _jointInstances[i].SetActive(true);

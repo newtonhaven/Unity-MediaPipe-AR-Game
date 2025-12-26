@@ -15,8 +15,8 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
         public Transform physicsFinger; 
 
         [Header("Depth Calibration")]
-        public float depthMultiplier = 0.5f;
-        public float minDepth = 0.3f;
+        public float depthMultiplier = 0.2f;
+        public float minDepth = 0.1f;
         public float maxDepth = 2.0f; 
 
         [Header("Events")]

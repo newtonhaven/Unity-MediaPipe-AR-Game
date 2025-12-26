@@ -1057,7 +1057,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1843927844}
-  interactionDepth: 0.5
+  depthMultiplier: 0.2
+  minDepth: 0.1
+  maxDepth: 2
   jointPrefab: {fileID: 7527933261233696161, guid: 0d55eabe468c38c44bb947042e0f8571, type: 3}
 --- !u!4 &491384845
 Transform:
@@ -2042,6 +2044,9 @@ MonoBehaviour:
   arSource: {fileID: 1064799470}
   mainARCamera: {fileID: 1843927844}
   physicsFinger: {fileID: 172461562}
+  depthMultiplier: 0.5
+  minDepth: 0.3
+  maxDepth: 2
   onHandLandmarksOutput:
     m_PersistentCalls:
       m_Calls:
@@ -2110,8 +2115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b085c374a6772aba491e20d7d9d980db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonColor: {r: 0, g: 1, b: 1, a: 1}
-  lineWidth: 0.003
+  skeletonColor: {r: 0, g: 1, b: 1, a: 0.20392157}
+  lineWidth: 0.001
   _mainCamera: {fileID: 1843927844}
 --- !u!1 &1168280764
 GameObject:
