@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.XR.ARFoundation;
 
 public class GolemTarget : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GolemTarget : MonoBehaviour
     private bool _isDead = false;
     private Renderer[] _renderers;
     private Collider[] _colliders;
+    private ARAnchor _anchor;
 
     void Start()
     {
@@ -31,6 +33,10 @@ public class GolemTarget : MonoBehaviour
                _audioSource = gameObject.AddComponent<AudioSource>();
             }
         }
+
+        // Add AR Anchor to stick it to the world
+        _anchor = GetComponent<ARAnchor>();
+        if (_anchor == null) _anchor = gameObject.AddComponent<ARAnchor>();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -99,6 +105,9 @@ public class GolemTarget : MonoBehaviour
 
     void Respawn()
     {
+        // Anchor Management: We must destroy the old anchor to move the object
+        if (_anchor != null) Destroy(_anchor);
+        
         // Move to random position (optional logic)
         float x = Random.Range(respawnAreaMin.x, respawnAreaMax.x);
         float y = Random.Range(respawnAreaMin.y, respawnAreaMax.y);
@@ -106,6 +115,9 @@ public class GolemTarget : MonoBehaviour
         
         // Keep the same Y if you don't want them floating/sinking, or use the random Y
         transform.position = new Vector3(x, transform.position.y, z); 
+        
+        // Add new Anchor at new position
+        _anchor = gameObject.AddComponent<ARAnchor>(); 
         // For now, let's keep it simple or use the range if configured
         
         // If the user wants specific logic, we can adjust. For now, let's just make it reappear at the same spot 

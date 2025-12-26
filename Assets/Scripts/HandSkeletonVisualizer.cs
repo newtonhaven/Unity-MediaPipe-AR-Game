@@ -7,7 +7,6 @@ public class HandSkeletonVisualizer : MonoBehaviour
     [Header("Settings")]
     public Camera mainCamera;
     [Header("Depth Calibration")]
-    // Default values matching HandLandmarkerRunner
     public float depthMultiplier = 0.2f;
     public float minDepth = 0.1f;
     public float maxDepth = 2.0f;
@@ -24,10 +23,9 @@ public class HandSkeletonVisualizer : MonoBehaviour
     // Pinky: 17, 18, 20
     private readonly List<int> _targetLandmarkIndices = new List<int> { 5, 6, 7, 2, 3, 4, 9, 10, 12, 13, 14, 16, 17, 18, 20 };
 
-    // CHANGED: Now accepts HandLandmarkerResult from the Runner
+
     public void OnHandLandmarksOutput(HandLandmarkerResult result)
     {
-        // 1. Safety Checks
         // 1. Safety Checks
         if (result.handLandmarks == null || result.handLandmarks.Count == 0) return;
         
@@ -75,9 +73,8 @@ public class HandSkeletonVisualizer : MonoBehaviour
             }
         }
 
-        // 2. Calculate Depth (Scale-based)
+        // Calculate Depth
         // Wrist is index 0, Middle MCP is index 9
-        // We assume landmarks has at least 21 points (standard hand model)
         float estimatedDepth = 0.5f; // fallback
         if (landmarks.Count > 9)
         {

@@ -15,8 +15,8 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
         public Transform physicsFinger; 
 
         [Header("Depth Calibration")]
-        public float depthMultiplier = 0.2f;
-        public float minDepth = 0.1f;
+        public float depthMultiplier = 0.15f;
+        public float minDepth = 0.01f;
         public float maxDepth = 2.0f; 
 
         [Header("Events")]
@@ -116,7 +116,10 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
                 {
                     MainThreadDispatcher.Instance().Enqueue(() => 
                     {
-                        Vector3 worldPos = mainARCamera.ScreenToWorldPoint(new Vector3(screenX, screenY, estimatedDepth));
+                        // Use ViewportToWorldPoint to match Visualizer exactly (0-1 coords)
+                        float lx = 1f - indexTip.x;
+                        float ly = 1f - indexTip.y;
+                        Vector3 worldPos = mainARCamera.ViewportToWorldPoint(new Vector3(lx, ly, estimatedDepth));
                         physicsFinger.position = worldPos;
                     });
                 }
