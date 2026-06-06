@@ -48,7 +48,9 @@ For a deep dive into the technical details and formulas, check out the full [Tec
     *   **iOS**: ARKit-supported device
 *   *Alternatively*: A computer webcam can be used for in-editor testing (`UNITY_EDITOR`).
 
-### Steps
+### APK File is in Releases
+
+### Steps For Build
 1.  **Clone the Repository**:
     ```bash
     git clone https://github.com/your-username/Unity-MediaPipe-AR-Game.git
