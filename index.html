@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Unity MediaPipe AR Game: An augmented reality action-defense game integrating Google MediaPipe Hand Tracking and Unity AR Foundation for touch-free 3D spatial interactions."
+    >
+    <title>Unity MediaPipe AR Game - Touch-Free Spatial Interactions</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets via CDNs for reliability and speed -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <!-- Custom Styling (Futuristic Dark Theme, Glassmorphism, Micro-animations) -->
+    <style>
+      :root {
+        --bg-color: #0b0f19;
+        --card-bg: rgba(17, 24, 39, 0.7);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --text-color: #f3f4f6;
+        --text-muted: #9ca3af;
+        --primary-gradient: linear-gradient(135deg, #a78bfa 0%, #3b82f6 100%);
+        --secondary-gradient: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+        --glow-shadow: 0 0 25px rgba(139, 92, 246, 0.25);
+        --transition-speed: 0.3s;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Inter', sans-serif;
+        background-image: 
+          radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+          radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 45%);
+        background-attachment: fixed;
+      }
+
+      h1, h2, h3, .title {
+        font-family: 'Outfit', sans-serif;
+        color: #ffffff !important;
+        font-weight: 800;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: transparent;
+        padding-top: 4rem;
+        padding-bottom: 2rem;
+      }
+
+      .publication-title {
+        font-size: 3.5rem !important;
+        line-height: 1.15;
+        background: linear-gradient(to right, #ffffff, #c084fc, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem !important;
+        text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      .subtitle-custom {
+        font-size: 1.3rem;
+        color: var(--text-muted);
+        max-width: 800px;
+        margin: 0 auto 2.5rem auto;
+        line-height: 1.6;
+      }
+
+      /* Buttons & Links */
+      .button-gradient {
+        background: var(--primary-gradient);
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600;
+        transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      }
+
+      .button-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+      }
+
+      .button-outline {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--card-border) !important;
+        color: #ffffff !important;
+        font-weight: 500;
+        transition: all var(--transition-speed) ease;
+      }
+
+      .button-outline:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        transform: translateY(-1px);
+      }
+
+      /* Cards & Layout */
+      .glass-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 2.5rem;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        margin-bottom: 2rem;
+        transition: border-color var(--transition-speed) ease;
+      }
+
+      .glass-card:hover {
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+
+      /* Image Mockups */
+      .image-container {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        box-shadow: var(--glow-shadow);
+        background: #000;
+      }
+
+      /* Tab Controls */
+      .tab-container {
+        display: flex;
+        border-bottom: 1px solid var(--card-border);
+        margin-bottom: 1.5rem;
+      }
+
+      .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all var(--transition-speed) ease;
+        border-bottom: 2px solid transparent;
+      }
+
+      .tab-btn:hover {
+        color: #ffffff;
+      }
+
+      .tab-btn.active {
+        color: #a78bfa;
+        border-bottom-color: #a78bfa;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Code Blocks */
+      pre {
+        background-color: #0d1117 !important;
+        border-radius: 10px;
+        padding: 1rem;
+        border: 1px solid var(--card-border);
+      }
+
+      code {
+        font-family: 'Courier New', Courier, monospace;
+      }
+
+      /* Bullet lists */
+      .feature-list li {
+        margin-bottom: 0.75rem;
+        padding-left: 1.5rem;
+        position: relative;
+      }
+
+      .feature-list li::before {
+        content: "✦";
+        position: absolute;
+        left: 0;
+        color: #3b82f6;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #070a12;
+        border-top: 1px solid var(--card-border);
+        color: var(--text-muted);
+        padding: 3rem 0;
+      }
+
+      .footer a {
+        color: #60a5fa;
+      }
+
+      .footer a:hover {
+        color: #a78bfa;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO -->
+    <section class="hero has-text-centered">
+      <div class="container is-max-desktop">
+        <h1 class="title publication-title">
+          Unity MediaPipe AR Game
+        </h1>
+        <p class="subtitle-custom">
+          An augmented reality action-defense game integrating Google MediaPipe Hand Tracking (Vision Tasks) and Unity AR Foundation for seamless, touch-free 3D spatial physical interactions.
+        </p>
+
+        <div class="buttons is-centered">
+          <a href="https://github.com/newtonhaven/Unity-MediaPipe-AR-Game" class="button button-gradient is-medium">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>GitHub Code</span>
+          </a>
+          <a href="raport.md" class="button button-outline is-medium">
+            <span class="icon"><i class="fa-solid fa-file-lines"></i></span>
+            <span>Technical Report</span>
+          </a>
+          <a href="Unity_MediaPipe_AR_Integration.pdf" download class="button button-outline is-medium">
+            <span class="icon"><i class="fa-solid fa-file-pdf"></i></span>
+            <span>Integration Paper</span>
+          </a>
+          <a href="Engineering_Touchless_AR.pdf" download class="button button-outline is-medium">
+            <span class="icon"><i class="fa-solid fa-file-pdf"></i></span>
+            <span>Engineering Paper</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAMEPLAY PREVIEW BANNER -->
+    <section class="section pt-0">
+      <div class="container is-max-desktop">
+        <div class="glass-card">
+          <h2 class="title is-3 has-text-centered mb-5">AR Workspace & Gameplay</h2>
+          <div class="image-container">
+            <img
+              src="Assets/Images/space_cut 1.png"
+              alt="Unity MediaPipe AR Game Preview Screenshot"
+              style="width: 100%; height: auto; display: block;"
+            >
+          </div>
+          <p class="has-text-centered mt-4 text-muted" style="font-size: 0.95rem; font-style: italic; color: var(--text-muted);">
+            The game workspace showing the AR camera pass-through, the 3D-projected hand skeleton, and floating interactive triggers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABSTRACT / INTRODUCTION -->
+    <section class="section py-4">
+      <div class="container is-max-desktop">
+        <div class="glass-card">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content is-size-6" style="color: var(--text-color); line-height: 1.7;">
+            <p>
+              In traditional AR games, users interact with virtual objects via flat touch screens, which breaks immersion and restricts interactions to 2D planes. This project presents a <strong>touch-free spatial interaction framework</strong> by bridging Google MediaPipe's Hand Landmarker model directly with Unity's AR Foundation.
+            </p>
+            <p>
+              By bypassing the camera hardware lock, marshaling multi-threaded native C++ callbacks, and using perspective geometry to estimate depth dynamically, our bridge solution establishes a reliable interface for mapping physical hand movements directly to Unity's 3D physics engine. Players can press virtual floating buttons, shield themselves from threats, and launch rockets at targets using raw hand coordinates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE BRIDGE SOLUTION (THE TECHNICAL EXPLANATION) -->
+    <section class="section py-4">
+      <div class="container is-max-desktop">
+        <div class="glass-card">
+          <h2 class="title is-3 mb-4">The AR-MediaPipe Bridge Solution</h2>
+          <p class="mb-5" style="color: var(--text-muted);">
+            Building touch-free interactions requires overcoming camera lock conflicts (ARCore/ARKit own the camera) and thread limitations. Here are the core modules that bridge the gap:
+          </p>
+
+          <div class="tab-container">
+            <button class="tab-btn active" onclick="switchTab(event, 'cam-source')">Camera Redirection</button>
+            <button class="tab-btn" onclick="switchTab(event, 'dispatcher')">Thread Sync</button>
+            <button class="tab-btn" onclick="switchTab(event, 'depth-estimation')">Depth Estimation</button>
+          </div>
+
+          <!-- TAB 1: Camera Redirection -->
+          <div id="cam-source" class="tab-content active">
+            <div class="content mb-4">
+              <p>
+                To avoid camera device lock conflicts, <code>ARRawCameraSource.cs</code> taps into the AR Foundation pipeline. It retrieves raw CPU images, converts them to <code>RGBA32</code> format with a MirrorY transform, and updates a dynamic <code>Texture2D</code> passed to the tracking model.
+              </p>
+            </div>
+            <pre><code class="language-csharp">private unsafe void OnCameraFrameReceived(ARCameraFrameEventArgs eventArgs)
+{
+    if (!arCameraManager.TryAcquireLatestCpuImage(out XRCpuImage image)) return;
+
+    var conversionParams = new XRCpuImage.ConversionParams {
+        inputRect = new RectInt(0, 0, image.width, image.height),
+        outputDimensions = new Vector2Int(image.width, image.height),
+        outputFormat = TextureFormat.RGBA32,
+        transformation = XRCpuImage.Transformation.MirrorY
+    };
+
+    if (_outputTexture == null || _outputTexture.width != image.width) {
+        _outputTexture = new Texture2D(image.width, image.height, TextureFormat.RGBA32, false);
+    }
+
+    int size = image.GetConvertedDataSize(conversionParams);
+    var buffer = new NativeArray&lt;byte&gt;(size, Allocator.Temp);
+    image.Convert(conversionParams, new IntPtr(buffer.GetUnsafePtr()), buffer.Length);
+    _outputTexture.LoadRawTextureData(buffer);
+    _outputTexture.Apply();
+
+    image.Dispose();
+    buffer.Dispose();
+}</code></pre>
+          </div>
+
+          <!-- TAB 2: Thread Dispatcher -->
+          <div id="dispatcher" class="tab-content">
+            <div class="content mb-4">
+              <p>
+                MediaPipe runs inference asynchronous to Unity's game loop on a background thread. The thread-safe <code>MainThreadDispatcher</code> enqueues actions from the background thread and invokes them during the main <code>Update()</code> loop to safely execute Unity API operations.
+              </p>
+            </div>
+            <pre><code class="language-csharp">public class MainThreadDispatcher : MonoBehaviour
+{
+    private static readonly Queue&lt;Action&gt; _executionQueue = new Queue&lt;Action&gt;();
+
+    public void Enqueue(Action action)
+    {
+        lock (_executionQueue) {
+            _executionQueue.Enqueue(action);
+        }
+    }
+
+    void Update()
+    {
+        lock (_executionQueue) {
+            while (_executionQueue.Count > 0) {
+                _executionQueue.Dequeue().Invoke();
+            }
+        }
+    }
+}</code></pre>
+          </div>
+
+          <!-- TAB 3: Depth Estimation -->
+          <div id="depth-estimation" class="tab-content">
+            <div class="content mb-4">
+              <p>
+                To recover depth from a single 2D viewport perspective, we measure the relative size of the hand. We compute the 2D Euclidean distance ($apparentSize$) between the <strong>Wrist</strong> (Joint 0) and the <strong>Middle MCP</strong> (Joint 9). Z-depth is calculated using the formula: $z = \frac{Multiplier}{apparentSize}$, mapping it into 3D world space.
+              </p>
+            </div>
+            <pre><code class="language-csharp">// Apparent size of the hand in 2D viewport
+float apparentSize = Vector2.Distance(new Vector2(wrist.x, wrist.y), new Vector2(middleMcp.x, middleMcp.y));
+if (apparentSize < 0.001f) apparentSize = 0.001f;
+
+// Calculate distance via perspective scaling
+float estimatedDepth = depthMultiplier / apparentSize;
+estimatedDepth = Mathf.Clamp(estimatedDepth, minDepth, maxDepth);
+
+// Translate viewport coordinates to 3D world space
+Vector3 worldPos = mainARCamera.ViewportToWorldPoint(new Vector3(1f - indexTip.x, 1f - indexTip.y, estimatedDepth));</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE HIGHLIGHTS & PHYSICS -->
+    <section class="section py-4">
+      <div class="container is-max-desktop">
+        <div class="columns">
+          <div class="column">
+            <div class="glass-card" style="height: 100%;">
+              <h3 class="title is-4">Physics Hand Interactions</h3>
+              <ul class="feature-list" style="color: var(--text-muted);">
+                <li><strong>Dynamic Hand Visualizer</strong>: Reconstructs hand geometry dynamically in 3D using coordinate mapping and custom point joints.</li>
+                <li><strong>Collision Proxy</strong>: Connects a sphere collider rigid body to the index finger tip to translate gestures into physics triggers.</li>
+                <li><strong>Interactive Triggers</strong>: In-world shoot and shield button prefabs with built-in cooldowns and audio feedback.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="column">
+            <div class="glass-card" style="height: 100%;">
+              <h3 class="title is-4">Entity & Anchor Mechanics</h3>
+              <ul class="feature-list" style="color: var(--text-muted);">
+                <li><strong>AR World Stabilization</strong>: Implements <code>ARAnchor</code> on Golem targets to lock virtual enemies onto flat planes, preventing drift.</li>
+                <li><strong>Damage & Score Pipeline</strong>: Captures collisions with rocket rigidbodies, scoring, and triggering explosions.</li>
+                <li><strong>Respawn Zoning</strong>: Destroys anchors, recalculates randomized positions in the player's vicinity, and re-anchors targets.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container has-text-centered">
+        <div class="content">
+          <p>
+            <strong>Unity MediaPipe AR Game Blog</strong> | Built with bulma, highlight.js, and fontawesome.
+          </p>
+          <p>
+            Website theme structure adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> under CC 4.0 License.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Interactive Tabs Logic -->
+    <script>
+      function switchTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+      }
+    </script>
+  </body>
+</html>
