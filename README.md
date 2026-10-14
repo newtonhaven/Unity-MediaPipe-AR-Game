@@ -53,7 +53,7 @@ For a deep dive into the technical details and formulas, check out the full [Tec
 ### Steps For Build
 1.  **Clone the Repository**:
     ```bash
-    git clone https://github.com/your-username/Unity-MediaPipe-AR-Game.git
+    git clone https://github.com/newtonhaven/Unity-MediaPipe-AR-Game.git
     cd Unity-MediaPipe-AR-Game
     ```
 2.  **Open in Unity**:
